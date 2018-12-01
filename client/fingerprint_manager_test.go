@@ -424,6 +424,9 @@ func TestFingerprintManager_Run_Combination(t *testing.T) {
 	require := require.New(t)
 
 	testClient, cleanup := TestClient(t, func(c *config.Config) {
+		// delete nomad.version that may be baked in test node
+		delete(c.Node.Attributes, "nomad.version")
+
 		c.Options = map[string]string{
 			"fingerprint.whitelist": "  arch,cpu,memory,foo,bar	",
 			"fingerprint.blacklist": "  memory,nomad	",
